@@ -167,7 +167,8 @@ void Screen::hor_line(int y, int x1, int x2, Uint32 c) {
     int iter_i;
     int end_i;
     if (clipped) {
-        if (unlikely(y >= height || y < 0)) {
+        if (unlikely(y >= height || y < 0 || (x1 >= width && x2 >= width) ||
+                     (x1 < 0 && x2 < 0))) {
             return;
         }
         x1 = clip_x(x1);
@@ -197,7 +198,8 @@ void Screen::ver_line(int x, int y1, int y2, Uint32 c) {
     int iter_i;
     int end_i;
     if (clipped) {
-        if (unlikely(x >= width || x < 0)) {
+        if (unlikely(x >= width || x < 0 || (y1 >= height && y2 >= height) ||
+                     (y1 < 0 && y2 < 0))) {
             return;
         }
         y1 = clip_y(y1);
@@ -208,7 +210,7 @@ void Screen::ver_line(int x, int y1, int y2, Uint32 c) {
         end_i = y2 * width + x;
     } else {
         iter_i = y2 * width + x;
-        end_i = y2 * width + x;
+        end_i = y1 * width + x;
     }
     for(; iter_i <= end_i; iter_i += width) {
         pixels[iter_i] = c;
@@ -244,7 +246,9 @@ void Screen::fill_rect(int x1, int y1, int x2, int y2, Uint32 c) {
     int start_x;
     int dx;
     if (clipped) {
-        if (unlikely(!on_screen(x1, y1) && !on_screen(x2, y2))) {
+        if (unlikely((x1 < 0 && x2 < 0) || (y1 < 0 && y2 < 0) ||
+                     (x1 >= width && x2 >= width) ||
+                     (y1 >= height && y2 >= height))) {
             return;
         }
         x1 = clip_x(x1);

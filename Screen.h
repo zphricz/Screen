@@ -31,12 +31,12 @@ class Screen {
         SDL_Window* window;
         SDL_Renderer* renderer;
         SDL_Texture* texture;
+        std::chrono::high_resolution_clock::time_point last_frame_time;
+        std::chrono::high_resolution_clock::time_point current_frame_time;
         bool recording;
         int image_number;
         std::string image_dir;
         int z_fill;
-        std::chrono::high_resolution_clock::time_point last_frame_time;
-        std::chrono::high_resolution_clock::time_point current_frame_time;
 
         inline Uint32& pixel_at(int x, int y);
     public:
