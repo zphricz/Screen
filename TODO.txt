@@ -1,0 +1,2 @@
+- Fix blend() function when blending with colors of 0 alpha:
+  blend({0, 0, 0, 0}, {25, 25, 25, 255}) != {25, 25, 25, 255} for some reason
