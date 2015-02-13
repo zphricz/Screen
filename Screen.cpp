@@ -8,15 +8,15 @@ using namespace chrono;
 
 Screen::Screen(int size_x, int size_y, bool full_screen, const char * name,
                 bool vsync, bool clipped, bool direct) :
-    recording(false),
     width(size_x),
     height(size_y),
+    clipped(clipped),
     rshift(16),
     gshift(8),
     bshift(0),
-    vsynced(vsync),
-    clipped(clipped),
-    direct_draw(direct) {
+    recording(false),
+    direct_draw(direct),
+    vsynced(vsync) {
     if (full_screen) {
         window = SDL_CreateWindow(name, 0, 0, width, height,
                         SDL_WINDOW_FULLSCREEN);
@@ -117,6 +117,10 @@ int Screen::clip_y(int y) {
         y = 0;
     }
     return y;
+}
+
+void Screen::set_color(Uint32 c) {
+    default_color = c;
 }
 
 void Screen::set_color(Uint8 r, Uint8 g, Uint8 b) {

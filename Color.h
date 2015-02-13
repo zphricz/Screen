@@ -9,12 +9,12 @@ struct Color {
     Uint8 b;
     Uint8 a;
 
-    Color() {}
+    Color();
     Color(Uint8 r, Uint8 g, Uint8 b);
     Color(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
 
-    Color operator*(float factor);
-    Color operator/(float factor);
+    Color operator*(float factor) const;
+    Color operator/(float factor) const;
     Color& operator*=(float factor);
     Color& operator/=(float factor);
 };
