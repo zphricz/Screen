@@ -6,7 +6,7 @@
 using namespace std;
 using namespace chrono;
 
-Screen::Screen(int size_x, int size_y, bool full_screen, const char * name,
+Screen::Screen(int size_x, int size_y, const char * name, bool full_screen,
                 bool vsync, bool clipped, bool direct) :
     default_color(format_color(255, 255, 255)),
     width(size_x),
@@ -69,7 +69,7 @@ Uint32 Screen::format_color(Uint8 r, Uint8 g, Uint8 b) {
     return (r << rshift) | (g << gshift) | (b << bshift);
 }
 
-Uint32 Screen::format_color(Color c) {
+Uint32 Screen::format_color(SDL_Color c) {
     return format_color(c.r, c.g, c.b);
 }
 
@@ -129,7 +129,7 @@ void Screen::set_color(Uint8 r, Uint8 g, Uint8 b) {
     default_color = format_color(r, g, b);
 }
 
-void Screen::set_color(Color c) {
+void Screen::set_color(SDL_Color c) {
     default_color = format_color(c);
 }
 
@@ -146,7 +146,7 @@ void Screen::draw_pixel(int x, int y) {
     draw_pixel(x, y, default_color);
 }
 
-void Screen::draw_pixel(int x, int y, Color c) {
+void Screen::draw_pixel(int x, int y, SDL_Color c) {
     draw_pixel(x, y, format_color(c));
 }
 
@@ -164,7 +164,7 @@ void Screen::fill_screen() {
     fill_screen(default_color);
 }
 
-void Screen::fill_screen(Color c) {
+void Screen::fill_screen(SDL_Color c) {
     fill_screen(format_color(c));
 }
 
@@ -196,7 +196,7 @@ void Screen::hor_line(int y, int x1, int x2) {
     hor_line(y, x1, x2, default_color);
 }
 
-void Screen::hor_line(int y, int x1, int x2, Color c) {
+void Screen::hor_line(int y, int x1, int x2, SDL_Color c) {
     hor_line(y, x1, x2, format_color(c));
 }
 
@@ -227,7 +227,7 @@ void Screen::ver_line(int x, int y1, int y2) {
     ver_line(x, y1, y2, default_color);
 }
 
-void Screen::ver_line(int x, int y1, int y2, Color c) {
+void Screen::ver_line(int x, int y1, int y2, SDL_Color c) {
     ver_line(x, y1, y2, format_color(c));
 }
 
@@ -242,7 +242,7 @@ void Screen::draw_rect(int x1, int y1, int x2, int y2) {
     draw_rect(x1, y1, x2, y2, default_color);
 }
 
-void Screen::draw_rect(int x1, int y1, int x2, int y2, Color c) {
+void Screen::draw_rect(int x1, int y1, int x2, int y2, SDL_Color c) {
     draw_rect(x1, y1, x2, y2, format_color(c));
 }
 
@@ -290,7 +290,7 @@ void Screen::fill_rect(int x1, int y1, int x2, int y2) {
     fill_rect(x1, y1, x2, y2, default_color);
 }
 
-void Screen::fill_rect(int x1, int y1, int x2, int y2, Color c) {
+void Screen::fill_rect(int x1, int y1, int x2, int y2, SDL_Color c) {
     fill_rect(x1, y1, x2, y2, format_color(c));
 }
 
@@ -320,7 +320,7 @@ void Screen::draw_line(int x1, int y1, int x2, int y2) {
     draw_line(x1, y1, x2, y2, default_color);
 }
 
-void Screen::draw_line(int x1, int y1, int x2, int y2, Color c) {
+void Screen::draw_line(int x1, int y1, int x2, int y2, SDL_Color c) {
     draw_line(x1, y1, x2, y2, format_color(c));
 }
 
@@ -361,7 +361,7 @@ void Screen::draw_circle(int x, int y, int r) {
     draw_circle(x, y, r, default_color);
 }
 
-void Screen::draw_circle(int x, int y, int r, Color c) {
+void Screen::draw_circle(int x, int y, int r, SDL_Color c) {
     draw_circle(x, y, r, format_color(c));
 }
 
@@ -397,7 +397,7 @@ void Screen::fill_circle(int x, int y, int r) {
     fill_circle(x, y, r, default_color);
 }
 
-void Screen::fill_circle(int x, int y, int r, Color c) {
+void Screen::fill_circle(int x, int y, int r, SDL_Color c) {
     fill_circle(x, y, r, format_color(c));
 }
 

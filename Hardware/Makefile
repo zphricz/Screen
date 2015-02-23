@@ -5,7 +5,7 @@ SRC = $(wildcard *.cpp)
 OBJECTS = $(patsubst %.cpp, %.o, $(SRC))
 HEADERS = $(patsubst %.cpp, %.h, $(SRC))
 DEPS = $(patsubst %.cpp, %.d, $(SRC))
-ELFNAME = clip_test
+ELFNAME = clip_test_hardware
 
 ifeq ($(OS), Darwin)
 	CXX = clang++
@@ -14,7 +14,7 @@ ifeq ($(OS), Linux)
 	CXX = g++
 endif
 
-all: screen.so screen.a $(ELFNAME)
+all: hardware_screen.so hardware_screen.a $(ELFNAME)
 
 $(ELFNAME): $(OBJECTS)
 	$(CXX) $(CXXFLAGS) -o$@ $^ $(LDFLAGS) 
@@ -22,13 +22,13 @@ $(ELFNAME): $(OBJECTS)
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c -MMD -MP $< -o $@
 
-screen.so: Screen.cpp Screen.h Color.cpp Color.h
+hardware_screen.so: HardwareScreen.cpp HardwareScreen.h Color.cpp Color.h
 	$(CXX) $(CXXFLAGS) -shared -fPIC -o$@ $< $(LDFLAGS)
 
-screen.a: Screen.o
+hardware_screen.a: HardwareScreen.o
 	ar -cvq $@ $^
 
 -include $(DEPS)
 
 clean:
-	rm -f *.d screen.so screen.a *.o $(ELFNAME)
+	rm -f *.d hardware_screen.so hardware_screen.a *.o $(ELFNAME)
