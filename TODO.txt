@@ -1,2 +1,2 @@
-- Fix blend() function when blending with colors of 0 alpha:
-  blend({0, 0, 0, 0}, {25, 25, 25, 255}) != {25, 25, 25, 255} for some reason
+- Add better clipping for line drawing (circle drawing too?)
+- Add text drawing capabilities?

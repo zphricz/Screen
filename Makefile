@@ -14,7 +14,7 @@ ifeq ($(OS), Linux)
 	CXX = g++
 endif
 
-all: screen.so screen.a $(ELFNAME)
+all: $(ELFNAME)
 
 $(ELFNAME): $(OBJECTS)
 	$(CXX) $(CXXFLAGS) -o$@ $^ $(LDFLAGS) 
@@ -22,13 +22,7 @@ $(ELFNAME): $(OBJECTS)
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c -MMD -MP $< -o $@
 
-screen.so: Screen.cpp Screen.h Color.cpp Color.h
-	$(CXX) $(CXXFLAGS) -shared -fPIC -o$@ $< $(LDFLAGS)
-
-screen.a: Screen.o
-	ar -cvq $@ $^
-
 -include $(DEPS)
 
 clean:
-	rm -f *.d screen.so screen.a *.o $(ELFNAME)
+	rm -f *.d *.o $(ELFNAME)

@@ -46,7 +46,7 @@ int main(int argc, char* argv[])
         full_screen = false;
     }
 
-    Screen scr(screen_width, screen_height, "Raycaster", full_screen, true);
+    Screen<> scr(screen_width, screen_height, "Raycaster", full_screen, true);
     Game g(&scr);
     g.run();
     return 0;

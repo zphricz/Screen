@@ -131,7 +131,7 @@ void Game::handle_input() {
     }
 }
 
-Game::Game(Screen* scr) : 
+Game::Game(Screen<>* scr) : 
     scr(scr),
     running(true) {
     x1 = 0;
@@ -170,6 +170,7 @@ void Game::run() {
         handle_input();
         draw_game();
         scr->commit();
+        cout << "FPS: " << scr->fps() << endl;
     }
 }
 

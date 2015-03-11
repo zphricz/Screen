@@ -5,13 +5,13 @@
 
 class Game {
     private:
-        Screen* scr;
+        Screen<>* scr;
         bool running;
 
         void handle_input();
         void draw_game();
     public:
-        Game(Screen* scr);
+        Game(Screen<>* scr);
         ~Game();
         void run();
 };
