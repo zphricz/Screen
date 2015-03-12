@@ -114,7 +114,7 @@ public:
 };
 
 // A clipped software screen that doesn't direct draw
-typedef Screen<false, true, false> SoftScreen;
+typedef Screen<true, true, false> SoftScreen;
 // A clipped hardware screen
 typedef Screen<false, true, false> HardScreen;
 // A software screen that isn't clipped and draws directly
@@ -286,7 +286,6 @@ private:
         }
     }
 
-    // Code taken from Rosetta Code
     void draw_line(int x1, int y1, int x2, int y2, Uint32 c) {
         int dx = abs(x2 - x1), sx = x1 < x2 ? 1 : -1;
         int dy = abs(y2 - y1), sy = y1 < y2 ? 1 : -1; 
@@ -308,7 +307,6 @@ private:
         }
     }
 
-    // Code taken from Rosetta Code
     void draw_circle(int x, int y, int r, Uint32 c) {
         int f = 1 - r;
         int ddF_x = 0;
@@ -341,7 +339,6 @@ private:
         }
     }
 
-    // Code taken from Rosetta Code
     void fill_circle(int x, int y, int r, Uint32 c) {
         int f = 1 - r;
         int ddF_x = 0;
