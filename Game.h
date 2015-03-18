@@ -4,16 +4,17 @@
 #include "Screen.h"
 
 class Game {
-    private:
-        Screen<>* scr;
-        bool running;
+private:
+  Screen<> *scr;
+  bool running;
 
-        void handle_input();
-        void draw_game();
-    public:
-        Game(Screen<>* scr);
-        ~Game();
-        void run();
+  void handle_input();
+  void draw_game();
+
+public:
+  Game(Screen<> *scr);
+  ~Game();
+  void run();
 };
 
 #endif
