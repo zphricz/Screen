@@ -13,7 +13,13 @@ int x2;
 int y2;
 int chosen;
 int rate = 6;
-enum { RECT, LINE, VERLINE, HORLINE, CIRCLE } state = RECT;
+enum class ShapeState {
+  RECT,
+  LINE,
+  VERLINE,
+  HORLINE,
+  CIRCLE
+} state = ShapeState::RECT;
 
 void Game::handle_input() {
   static bool up = false;
@@ -77,20 +83,20 @@ void Game::handle_input() {
       }
       case SDLK_SPACE: {
         switch (state) {
-        case RECT:
-          state = LINE;
+        case ShapeState::RECT:
+          state = ShapeState::LINE;
           break;
-        case LINE:
-          state = VERLINE;
+        case ShapeState::LINE:
+          state = ShapeState::VERLINE;
           break;
-        case VERLINE:
-          state = HORLINE;
+        case ShapeState::VERLINE:
+          state = ShapeState::HORLINE;
           break;
-        case HORLINE:
-          state = CIRCLE;
+        case ShapeState::HORLINE:
+          state = ShapeState::CIRCLE;
           break;
-        case CIRCLE:
-          state = RECT;
+        case ShapeState::CIRCLE:
+          state = ShapeState::RECT;
           break;
         }
         break;
@@ -144,19 +150,19 @@ Game::~Game() {}
 void Game::draw_game() {
   scr->cls();
   switch (state) {
-  case RECT:
+  case ShapeState::RECT:
     scr->fill_rect(x1, y_1, x2, y2, {255, 0, 0});
     break;
-  case LINE:
+  case ShapeState::LINE:
     scr->draw_line(x1, y_1, x2, y2, {255, 0, 0});
     break;
-  case VERLINE:
+  case ShapeState::VERLINE:
     scr->ver_line(x1, y_1, y2, {255, 0, 0});
     break;
-  case HORLINE:
+  case ShapeState::HORLINE:
     scr->hor_line(y_1, x1, x2, {255, 0, 0});
     break;
-  case CIRCLE:
+  case ShapeState::CIRCLE:
     scr->fill_circle(x1, y_1, abs(x1 - x2), {255, 0, 0});
     break;
   }
