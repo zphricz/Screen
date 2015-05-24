@@ -137,7 +137,7 @@ void Game::handle_input() {
   }
 }
 
-Game::Game(Screen<> *scr) : scr(scr), running(true) {
+Game::Game(SoftScreen *scr) : scr(scr), running(true) {
   x1 = 0;
   y_1 = 0;
   x2 = scr->width - 1;
