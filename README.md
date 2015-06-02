@@ -51,7 +51,7 @@ the contents of the back-buffer on your screen, use the commit function:
     scr.commit(); // scr's contents are now visible
 
 Because the Screen is double-buffered, you should draw to the whole screen
-before every commit. If you don't all pixels that weren't drawn to will flip
+before every commit. If you don't, all pixels that weren't drawn to will flip
 back to the state they were on the frame before the last commit
 
 ## Authors
