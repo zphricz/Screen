@@ -4,21 +4,22 @@ A simple interface for SDL graphics
 ## Screen class
 Instantiate a Screen and use its drawing functions to draw graphics. Each Screen
 that you instantiate corresponds to a single window. You can have multiple
-Screens instantiated at a single time.
+Screens instantiated at a single time
 
 ### Creating a Screen
 
 To create instantiate a Screen:
 
-    Screen<SOFT, CLIPPED> scr(int size_x, int size_y, const char *name, bool full_screen, bool vsync);
+    Screen<SOFT, CLIPPED> scr(int size_x, int size_y, const char *name,
+                              bool full_screen, bool vsync);
 
 The parameters are as follows:
 
-SOFT - A boolean that should be true if you want to run the software renderer
-CLIPPED - A boolean that should be true if you want your draw calls to be
-          clipped (set it to true to be safe)
-name - The name for the window that the Screen will draw to
-(All other parameters should be self-explanatory)
+* SOFT - A boolean that should be true if you want to run the software renderer
+* CLIPPED - A boolean that should be true if you want your draw calls to be
+            clipped (set it to true to be safe)
+* name - The name for the window that the Screen will draw to
+* (All other parameters should be self-explanatory)
 
 To simplify instantiation, the following typedefs are provided:
 
@@ -32,7 +33,7 @@ To simplify instantiation, the following typedefs are provided:
 The hardware renderer can't write out its buffer to a file as the software
 renderer can. In addition, the hardware renderer is likely to be slower if you
 only ever make calls to draw individual pixels. To make the most out of the
-hardware renderer, use the more abstract drawing functions.
+hardware renderer, use the more abstract drawing functions
 
 ### Drawing with the Screen
 
@@ -51,7 +52,7 @@ the contents of the back-buffer on your screen, use the commit function:
 
 Because the Screen is double-buffered, you should draw to the whole screen
 before every commit. If you don't all pixels that weren't drawn to will flip
-back to the state they were on the frame before the last commit.
+back to the state they were on the frame before the last commit
 
 ## Authors
 
