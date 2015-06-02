@@ -5,14 +5,14 @@
 
 class Game {
 private:
-  SoftScreen *scr;
+  PerfSoftScreen *scr;
   bool running;
 
   void handle_input();
   void draw_game();
 
 public:
-  Game(SoftScreen *scr);
+  Game(PerfSoftScreen *scr);
   ~Game();
   void run();
 };

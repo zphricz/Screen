@@ -45,7 +45,7 @@ int main(int argc, char *argv[]) {
     full_screen = false;
   }
 
-  SoftScreen scr(screen_width, screen_height, "Raycaster", full_screen, true);
+  PerfSoftScreen scr(screen_width, screen_height, "clip_test", full_screen, true);
   Game g(&scr);
   g.run();
   return 0;
