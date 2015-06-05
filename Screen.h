@@ -585,7 +585,7 @@ public:
     for (auto &ch: info) {
       out_stream.put(ch);
     }
-    for (int y = 0; y < height; y++) {
+    for (int y = height - 1; y >= 0; --y) {
       for (int x = 0; x < width; x++) {
         Uint32 c = pixel_at(x, y);
         Uint8 r = (c >> rshift) & 0xFF;
