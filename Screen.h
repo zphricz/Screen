@@ -99,6 +99,11 @@ public:
   void fill_circle(int x, int y, int r);
   void fill_circle(int x, int y, int r, SDL_Color c);
 
+  // Draws the current state of the screen into a .bmp file. Call this directly
+  // before a commit(). If instead you call it right after a commit, it will
+  // draw the frame that was committed before the one that was just comitted.
+  // This function does not work for hardware screens.
+  void write_bmp(const char *name);
   // Draws the current state of the screen into a .tga file. Call this directly
   // before a commit(). If instead you call it right after a commit, it will
   // draw the frame that was committed before the one that was just comitted.
@@ -419,8 +424,8 @@ public:
     if (recording) {
       std::ostringstream convert;
       convert << std::setw(z_fill) << std::setfill('0') << image_number;
-      std::string name = image_dir + "/image_" + convert.str() + ".tga";
-      write_tga(name.c_str());
+      std::string name = image_dir + "/image_" + convert.str() + ".bmp";
+      write_bmp(name.c_str());
       image_number++;
     }
     int pitch;
@@ -527,6 +532,71 @@ public:
 
   void fill_circle(int x, int y, int r, SDL_Color c) {
     fill_circle(x, y, r, format_color(c));
+  }
+
+  /*
+   * The code for this function was taken from:
+   * http://stackoverflow.com/questions/2654480/writing-bmp-image-in-pure-c-c-without-other-libraries
+   */
+  void write_bmp(const char *name) {
+    std::ofstream out_stream(name, std::ios_base::binary);
+    Uint8 file[14] = {
+      'B', 'M', // magic
+      0, 0, 0, 0, // size in bytes
+      0, 0, // app data
+      0, 0, // app data
+      40 + 14, 0, 0, 0 // start of data offset
+    };
+    Uint8 info[40] = {
+      40, 0, 0, 0, // info hd size
+      0, 0, 0, 0, // width
+      0, 0, 0, 0, // heigth
+      1, 0, // number color planes
+      24, 0, // bits per pixel
+      0, 0, 0, 0, // compression is none
+      0, 0, 0, 0, // image bits size
+      0x13, 0x0B, 0, 0, // horz resolution in pixel / m
+      0x13, 0x0B, 0, 0, // vert resolutions (0x03C3 = 96 dpi, 0x0B13 = 72 dpi)
+      0, 0, 0, 0, // #colors in pallete
+      0, 0, 0, 0, // #important colors
+    };
+    Uint32 pad_size  = (4 - (width * 3) % 4) % 4;
+    Uint32 size_data = width * height * 3 + height * pad_size;
+    Uint32 size_all  = size_data + sizeof(file) + sizeof(info);
+    file[2] = size_all;
+    file[3] = size_all >> 8;
+    file[4] = size_all >> 16;
+    file[5] = size_all >> 24;
+    info[4] = width;
+    info[5] = width >> 8;
+    info[6] = width >> 16;
+    info[7] = width >> 24;
+    info[8] = height;
+    info[9] = height >> 8;
+    info[10] = height >> 16;
+    info[11] = height >> 24;
+    info[20] = size_data;
+    info[21] = size_data >> 8;
+    info[22] = size_data >> 16;
+    info[23] = size_data >> 24;
+    for (auto &ch: file) {
+      out_stream.put(ch);
+    }
+    for (auto &ch: info) {
+      out_stream.put(ch);
+    }
+    for (int y = 0; y < height; y++) {
+      for (int x = 0; x < width; x++) {
+        Uint32 c = pixel_at(x, y);
+        Uint8 r = (c >> rshift) & 0xFF;
+        Uint8 g = (c >> gshift) & 0xFF;
+        Uint8 b = (c >> bshift) & 0xFF;
+        out_stream.put(b).put(g).put(r);
+      }
+      for (int i = 0; i < pad_size; ++i) {
+        out_stream.put(0);
+      }
+    }
   }
 
   void write_tga(const char *name) {
@@ -830,6 +900,8 @@ public:
     fill_circle(x, y, r);
     set_default_color();
   }
+
+  void write_bmp(const char *name) { return; }
 
   void write_tga(const char *name) { return; }
 

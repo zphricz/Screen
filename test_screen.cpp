@@ -3,9 +3,23 @@
 #include <thread>
 #include <future>
 #include <vector>
-#include "Game.h"
+#include "Screen.h"
 
 using namespace std;
+
+class Game {
+private:
+  SoftScreen *scr;
+  bool running;
+
+  void handle_input();
+  void draw_game();
+
+public:
+  Game(SoftScreen *scr);
+  ~Game();
+  void run();
+};
 
 int x1;
 int y_1;
@@ -49,6 +63,11 @@ void Game::handle_input() {
       }
       case SDLK_DOWN: {
         down = false;
+        break;
+      }
+      case SDLK_9: {
+        scr->write_tga("test.tga");
+        scr->write_bmp("test.bmp");
         break;
       }
       }
@@ -137,7 +156,7 @@ void Game::handle_input() {
   }
 }
 
-Game::Game(PerfSoftScreen *scr) : scr(scr), running(true) {
+Game::Game(SoftScreen *scr) : scr(scr), running(true) {
   x1 = 0;
   y_1 = 0;
   x2 = scr->width - 1;
@@ -175,4 +194,54 @@ void Game::run() {
     scr->commit();
     cout << "FPS: " << scr->fps() << endl;
   }
+}
+
+static void error(char *name) {
+  printf("Usage: %s [Screen_x Screen_y]\n", name);
+  exit(1);
+}
+
+int main(int argc, char *argv[]) {
+  bool default_screen = true;
+  int screen_width;
+  int screen_height;
+  SDL_DisplayMode display;
+
+  if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+    exit(1);
+  }
+  SDL_GetCurrentDisplayMode(0, &display);
+  atexit(SDL_Quit);
+
+  switch (argc) {
+  case 1:
+    break;
+  case 3:
+    screen_width = atoi(argv[1]);
+    screen_height = atoi(argv[2]);
+    default_screen = false;
+    if (screen_width <= 0 || screen_height <= 0) {
+      error(argv[0]);
+    }
+    break;
+  default:
+    error(argv[0]);
+  }
+
+  if (default_screen) {
+    screen_width = display.w;
+    screen_height = display.h;
+  }
+
+  bool full_screen;
+  if (screen_width == display.w && screen_height == display.h) {
+    full_screen = true;
+  } else {
+    full_screen = false;
+  }
+
+  SoftScreen scr(screen_width, screen_height, "clip_test", full_screen, true);
+  Game g(&scr);
+  g.run();
+  return 0;
 }
