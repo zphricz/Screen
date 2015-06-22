@@ -593,7 +593,7 @@ public:
         Uint8 b = (c >> bshift) & 0xFF;
         out_stream.put(b).put(g).put(r);
       }
-      for (int i = 0; i < pad_size; ++i) {
+      for (Uint32 i = 0; i < pad_size; ++i) {
         out_stream.put(0);
       }
     }
