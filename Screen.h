@@ -1,13 +1,13 @@
 #ifndef SCREEN_H
 #define SCREEN_H
 
+#include "Color.h"
 #include <SDL2/SDL.h>
 #include <chrono>
-#include <string>
 #include <fstream>
-#include <sstream>
 #include <iomanip>
-#include "Color.h"
+#include <sstream>
+#include <string>
 
 #define likely(x) __builtin_expect((x), 1)
 #define unlikely(x) __builtin_expect((x), 0)
@@ -379,8 +379,8 @@ public:
         image_number(0), image_dir("."), z_fill(5), vsynced(vsync),
         full_screen(full_screen) {
     if (full_screen) {
-      window =
-          SDL_CreateWindow(name, 0, 0, width, height, SDL_WINDOW_FULLSCREEN);
+      window = SDL_CreateWindow(name, 0, 0, width, height,
+                                SDL_WINDOW_FULLSCREEN_DESKTOP);
     } else {
       window = SDL_CreateWindow(name, SDL_WINDOWPOS_CENTERED,
                                 SDL_WINDOWPOS_CENTERED, width, height, 0);
